@@ -3,5 +3,7 @@
 - name:
   hosts: localhost
   roles:
-    - personal
-
+    - plex-server
+    - squeezebox-server
+    - pihole
+    - samba
