@@ -1,0 +1,7 @@
+---
+# tasks file for squeezebox
+wget https://downloads.slimdevices.com/nightly/8.2/lms/80a5cbacc45fc37779cb3e700ed3fa1e552258b5/logitechmediaserver_8.2.1~1652959290_amd64.deb
+
+
+sudo dpkg -i logitechmediaserver_8.2.1~1652959290_amd64.deb
+
