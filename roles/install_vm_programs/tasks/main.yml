@@ -1,0 +1,14 @@
+---
+# tasks file for install_vm_programs
+- name: Install KVM utilities
+  ansible.builtin.package:
+    name: 
+    - bridge-utils
+    - cpu-checker
+    - libvirt-clients
+    - libvirt-daemon
+    - qemu-system
+    - qemu-kvm
+    - virt-manager
+    state: present
+  become: true

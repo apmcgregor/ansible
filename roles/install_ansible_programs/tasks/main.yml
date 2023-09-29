@@ -1,0 +1,7 @@
+---
+# tasks file for install_ansible_programs
+- name: Install Ansible lint
+  ansible.builtin.package:
+    name: ansible-lint
+    state: present
+  become: true  

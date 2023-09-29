@@ -24,6 +24,14 @@
     state: present
   become: true
 
+- name: Add line numbers to vim 
+  ansible.builtin.blockinfile:
+    path: ~/.vimrc
+    marker: '# {mark} Added via Ansible'
+    create: true
+    block: |
+      set number
+
 - name: Install vlc
   ansible.builtin.package:
     name: vlc
@@ -33,5 +41,11 @@
 - name: Install htop
   ansible.builtin.package:
     name: htop
+    state: present
+  become: true  
+
+- name: Install cpuchecker for kvm-ok command
+  ansible.builtin.package:
+    name: cpu-checker
     state: present
   become: true  
