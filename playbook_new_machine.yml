@@ -1,0 +1,10 @@
+---
+
+- name: Inital setup of new machine...
+  hosts: localhost
+  roles:
+    - no_pwd_sudo
+    - install_common_programs
+    - bashrc
+    - inputrc
+    - git_shortcuts

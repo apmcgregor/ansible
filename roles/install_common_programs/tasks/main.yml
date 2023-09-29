@@ -1,0 +1,37 @@
+---
+# tasks file for install_common_programs
+- name: Add tmux
+  ansible.builtin.package:
+    name: tmux
+    state: present
+  become: true
+
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+  become: true
+
+- name: Install gtypist
+  ansible.builtin.package:
+    name: gtypist
+    state: present
+  become: true
+
+- name: Install vim
+  ansible.builtin.package:
+    name: vim
+    state: present
+  become: true
+
+- name: Install vlc
+  ansible.builtin.package:
+    name: vlc
+    state: present
+  become: true
+
+- name: Install htop
+  ansible.builtin.package:
+    name: htop
+    state: present
+  become: true  

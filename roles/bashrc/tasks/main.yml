@@ -1,0 +1,7 @@
+---
+# tasks file for bashrc
+- name: Add prompt shortener to .bashrc file
+  ansible.builtin.lineinfile:
+    path: ~/.bashrc
+    line: 'PS1="${PS1//\\w/\\W} # Ansible managed line'
+    state: present

@@ -1,0 +1,9 @@
+---
+# tasks file for inputrc
+- name: Copy .inputrc file to ~
+  ansible.builtin.copy:
+    src: .inputrc
+    dest: ~/
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: '0644'

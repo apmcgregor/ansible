@@ -1,0 +1,8 @@
+---
+# tasks file for no_pwd_sudo
+- name: Add current user to no password sudo
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    line: "{{ lookup('env', 'USER') }} ALL=(ALL) NOPASSWD:ALL"
+  become: true
+  
