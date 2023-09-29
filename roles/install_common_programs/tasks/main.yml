@@ -1,27 +1,15 @@
 ---
 # tasks file for install_common_programs
-- name: Add tmux
+- name: Add my commonly used programs...
   ansible.builtin.package:
-    name: tmux
-    state: present
-  become: true
-
-- name: Install git
-  ansible.builtin.package:
-    name: git
-    state: present
-  become: true
-
-- name: Install gtypist
-  ansible.builtin.package:
-    name: gtypist
-    state: present
-  become: true
-
-- name: Install vim
-  ansible.builtin.package:
-    name: vim
-    state: present
+    name: 
+    - tmux
+    - vlc
+    - htop
+    - cpu-checker
+    - git
+    - gtypist
+    - vim
   become: true
 
 - name: Add line numbers to vim 
@@ -31,21 +19,3 @@
     create: true
     block: |
       set number
-
-- name: Install vlc
-  ansible.builtin.package:
-    name: vlc
-    state: present
-  become: true
-
-- name: Install htop
-  ansible.builtin.package:
-    name: htop
-    state: present
-  become: true  
-
-- name: Install cpuchecker for kvm-ok command
-  ansible.builtin.package:
-    name: cpu-checker
-    state: present
-  become: true  

@@ -3,5 +3,5 @@
 - name: Add prompt shortener to .bashrc file
   ansible.builtin.lineinfile:
     path: ~/.bashrc
-    line: PS1="${PS1//\\w/\\W}
+    line: 'PS1="${PS1//\\w/\\W}"'
     state: present
