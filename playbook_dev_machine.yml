@@ -5,4 +5,3 @@
   roles:
     - install_vm_programs
     - install_ansible_programs
-
