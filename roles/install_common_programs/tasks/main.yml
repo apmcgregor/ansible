@@ -10,12 +10,11 @@
     - git
     - gtypist
     - vim
+    - tree
   become: true
 
 - name: Add line numbers to vim 
-  ansible.builtin.blockinfile:
+  ansible.builtin.lineinfile:
     path: ~/.vimrc
-    marker: '# {mark} Added via Ansible'
     create: true
-    block: |
-      set number
+    line: set number
