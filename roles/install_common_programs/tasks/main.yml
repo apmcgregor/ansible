@@ -12,6 +12,9 @@
     - gtypist
     - vim
     - tree
+    - python-is-python3
+    - net-tools
+    - iputils-arping
   become: true
 
 - name: Add line numbers to vim 

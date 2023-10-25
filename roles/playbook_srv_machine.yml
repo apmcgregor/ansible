@@ -1,0 +1,14 @@
+---
+# Ubuntu server programs
+- name: Install common dev tools...
+  hosts: localhost
+  roles:
+    - install_vm_programs
+    - install_ansible_programs
+
+- name: Activate unattended upgrades
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - unattended-upgrades
+  become: true
