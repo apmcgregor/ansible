@@ -23,3 +23,20 @@
     path: ~/.vimrc
     create: true
     line: set number
+
+- name: Install KeePassXC PPA repository
+  ansible.builtin.apt_repository:
+    repo: ppa:phoerious/keepassxc
+    state: present
+  become: true
+
+- name: Update apt cache
+  ansible.builtin.package:
+    update_cache: true
+  become: true
+
+- name: Install KeePassXC
+  ansible.builtin.package:
+    name: keepassxc
+    state: present
+  become: true
