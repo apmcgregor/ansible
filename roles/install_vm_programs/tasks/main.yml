@@ -1,5 +1,5 @@
 ---
-# tasks file for install_vm_programs
+# tasks file for install_vm_programs, you need to restart pc to get groups added.
 - name: Install KVM utilities
   ansible.builtin.package:
     name: 
@@ -11,4 +11,25 @@
     - qemu-kvm
     - virt-manager
     state: present
+  become: true
+
+- name: Add install user to kvm group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: "kvm"
+    append: true
+  become: true
+
+- name: Add install user to libvirtd group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: "libvirt-qemu"
+    append: true
+  become: true
+
+- name: Add install user to libvirtd group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: "libvirt"
+    append: true
   become: true
