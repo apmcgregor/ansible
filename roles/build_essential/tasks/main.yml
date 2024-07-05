@@ -1,0 +1,8 @@
+---
+# tasks file for build_essential
+
+- name: Install build-essential
+  ansible.builtin.package:
+    name: build-essential
+    state: present
+  become: true  

@@ -16,7 +16,6 @@
     - net-tools
     - iputils-arping
     - openssh-server
-    - curl
   become: true
 
 - name: Add line numbers to vim 

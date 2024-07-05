@@ -1,0 +1,7 @@
+---
+
+- name: Inital setup of new vm machine...
+  hosts: localhost
+  roles:
+    - qemu_guest_agent
+    - spice_vdagent

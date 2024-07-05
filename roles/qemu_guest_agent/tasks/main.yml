@@ -1,0 +1,7 @@
+---
+# tasks file for qemu_guest_agent
+- name: Install QEMU guest agent
+  ansible.builtin.package:
+    name: qemu-guest-agent
+    state: present
+  become: true 

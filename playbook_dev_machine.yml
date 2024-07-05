@@ -5,3 +5,11 @@
   roles:
     - install_vm_programs
     - install_ansible_programs
+    - no_pwd_sudo
+    - build_essential
+    - bashrc
+    - inputrc
+    - git_shortcuts
+    - docker
+    - nfs_client
+
