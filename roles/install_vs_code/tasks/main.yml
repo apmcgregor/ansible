@@ -1,0 +1,71 @@
+---
+# tasks file for install_vs_code
+
+- name: Ensure dependencies are installed (Debian)
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - apt-transport-https
+    - ca-certificates
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Ensure dependencies are installed (Debian)
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - apt-transport-https
+    - ca-certificates
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Import Microsoft GPG key (Debian)
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Add Visual Studio Code repository (Debian)
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Ensure VS Code is installed (Debian)
+  apt:
+    name: code
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Import Microsoft GPG key (RedHat)
+  rpm_key:
+    state: present
+    key: https://packages.microsoft.com/keys/microsoft.asc
+  become: true
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Import Microsoft GPG key (Debian)
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Add Visual Studio Code repository (Debian)
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Ensure VS Code is installed (Debian)
+  apt:
+    name: code
+    state: present
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
