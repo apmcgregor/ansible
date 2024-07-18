@@ -1,0 +1,15 @@
+---
+# tasks file for capslock_to_ctrl
+- name: Install gnome-tweaks
+  ansible.builtin.package:
+    name: gnome-tweaks
+    state: present
+  become: true
+
+- name: Set Caps Lock as Control
+  become: yes
+  shell: |
+    gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:nocaps']"
+  environment:
+    DISPLAY: ":0"
+    XAUTHORITY: "{{ lookup('env', 'XAUTHORITY') }}"
