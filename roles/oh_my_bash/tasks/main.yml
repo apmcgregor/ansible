@@ -1,0 +1,32 @@
+---
+# tasks file for oh_my_bash
+
+- name: Ensure Git is installed
+  apt:
+    name: git
+    state: present
+  become: yes
+
+- name: Download and run the Oh-My-Bash installation script
+  shell: |
+    sh -c "$(wget https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh -O -)"
+  args:
+    executable: /bin/bash
+  environment:
+    # Ensure the script runs non-interactively
+    CHSH: "no"
+    RUNZSH: "no"
+    KEEP_ZSHRC: "yes"
+  when: not ansible_env.HOME ~ '.oh-my-bash'
+
+- name: Set the Powerline-Multiline theme
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    regexp: '^OSH_THEME='
+    line: 'OSH_THEME="powerline-multiline"'
+    create: yes
+
+- name: Source .bashrc to apply changes
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash
