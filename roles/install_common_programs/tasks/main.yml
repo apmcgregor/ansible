@@ -17,6 +17,7 @@
     - iputils-arping
     - openssh-server
     - curl
+    - deja-dup
   become: true
 
 - name: Add line numbers to vim 
