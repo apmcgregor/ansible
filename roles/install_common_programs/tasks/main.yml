@@ -18,6 +18,7 @@
     - openssh-server
     - curl
     - deja-dup
+    - gparted
   become: true
 
 - name: Add line numbers to vim 
