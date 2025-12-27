@@ -1,0 +1,71 @@
+---
+# tasks/main.yml - Install and configure Prometheus Node Exporter
+
+- name: Ensure required packages are installed
+  apt:
+    name:
+      - curl
+      - tar
+    state: present
+    update_cache: yes
+
+- name: Create node_exporter user
+  user:
+    name: "{{ node_exporter_user }}"
+    shell: /usr/sbin/nologin
+    system: yes
+    create_home: no
+
+- name: Get latest Node Exporter version tag if requested
+  when: node_exporter_version == "latest"
+  shell: |
+    curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep tag_name | cut -d '"' -f 4
+  register: node_exporter_latest_tag
+  changed_when: false
+
+- name: Set node_exporter_version fact
+  set_fact:
+    node_exporter_version: "{{ node_exporter_latest_tag.stdout | default(node_exporter_version) }}"
+
+- name: Download Node Exporter binary tarball
+  get_url:
+    url: "https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_version }}/node_exporter-{{ node_exporter_version | regex_replace('^v', '') }}.linux-amd64.tar.gz"
+    dest: "/tmp/node_exporter.tar.gz"
+    mode: '0644'
+
+- name: Extract Node Exporter binary
+  unarchive:
+    src: "/tmp/node_exporter.tar.gz"
+    dest: "/tmp/"
+    remote_src: yes
+
+- name: Copy Node Exporter binary to /usr/local/bin
+  copy:
+    src: "/tmp/node_exporter-{{ node_exporter_version | regex_replace('^v', '') }}.linux-amd64/node_exporter"
+    dest: "{{ node_exporter_bin_path }}"
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    mode: '0755'
+    remote_src: yes
+
+- name: Ensure textfile collector directory exists
+  file:
+    path: "{{ node_exporter_textfile_dir }}"
+    state: directory
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+    mode: '0755'
+
+- name: Create Node Exporter systemd service file
+  template:
+    src: node_exporter.service.j2
+    dest: "{{ node_exporter_service_path }}"
+    mode: '0644'
+  notify: Restart node_exporter
+
+- name: Enable and start Node Exporter
+  systemd:
+    name: node_exporter
+    enabled: true
+    state: started
+    daemon_reload: yes_

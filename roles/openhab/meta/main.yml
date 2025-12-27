@@ -1,0 +1,4 @@
+---
+# Make sure Java is present before we touch openHAB
+dependencies:
+  - role: openjdk17

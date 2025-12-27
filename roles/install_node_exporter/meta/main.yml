@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: your_name
+  description: Installs and configures Prometheus Node Exporter
+  license: MIT
+  min_ansible_version: 2.12
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - jammy
+        - focal
+  galaxy_tags:
+    - monitoring
+    - prometheus
+    - node_exporter
+dependencies: []

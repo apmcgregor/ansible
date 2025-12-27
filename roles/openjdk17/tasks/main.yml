@@ -1,0 +1,8 @@
+---
+# Install OpenJDK 17 (headless JRE is fine for openHAB)
+- name: Ensure OpenJDK 17 is installed
+  become: true
+  ansible.builtin.apt:
+    name: openjdk-17-jre-headless
+    state: present
+    update_cache: true

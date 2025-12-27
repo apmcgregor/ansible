@@ -1,0 +1,10 @@
+---
+- name: reload systemd
+  command: systemctl daemon-reexec
+  notify: restart minecraft
+
+- name: restart minecraft
+  systemd:
+    name: minecraft
+    state: restarted
+    enabled: true

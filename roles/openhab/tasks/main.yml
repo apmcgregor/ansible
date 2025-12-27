@@ -1,0 +1,41 @@
+---
+
+# roles/openhab/tasks/main.yml
+# Install the latest stable openHAB 4 on Debian/Ubuntu
+
+- name: Install prerequisite for HTTPS repos
+  become: true
+  ansible.builtin.apt:
+    name: apt-transport-https
+    state: present
+    update_cache: true
+
+- name: Add openHAB GPG key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://openhab.jfrog.io/artifactory/api/gpg/key/public
+    state: present
+
+- name: Add openHAB stable repository (tracks openHAB 4)
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://openhab.jfrog.io/artifactory/openhab-linuxpkg stable main"
+    state: present
+
+- name: Refresh APT cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install openHAB (latest stable = openHAB 4)
+  become: true
+  ansible.builtin.apt:
+    name: openhab
+    state: present
+
+- name: Enable & start the openHAB service
+  become: true
+  ansible.builtin.systemd:
+    name: openhab
+    enabled: true
+    state: started

@@ -1,0 +1,86 @@
+---
+- name: Install openHAB 5 on VM with Java 21
+  hosts: openhab
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install required tools
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+
+    - name: Create keyrings directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Download and dearmor openHAB GPG key
+      ansible.builtin.shell: |
+        curl -fsSL https://openhab.jfrog.io/artifactory/api/gpg/key/public | \
+        gpg --dearmor -o /etc/apt/keyrings/openhab.gpg
+      args:
+        creates: /etc/apt/keyrings/openhab.gpg
+
+    - name: Add openHAB repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/openhab.list
+        content: |
+          deb [signed-by=/etc/apt/keyrings/openhab.gpg] https://openhab.jfrog.io/artifactory/openhab-linuxpkg stable main
+
+    - name: Update apt cache after repo add
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Remove Java 17 if installed
+      ansible.builtin.apt:
+        name: openjdk-17-jre-headless
+        state: absent
+        purge: true
+      ignore_errors: true
+
+    - name: Install Java 21 (required by openHAB 5)
+      ansible.builtin.apt:
+        name: openjdk-21-jre-headless
+        state: present
+
+    - name: Ensure /etc/default/openhab exists
+      ansible.builtin.file:
+        path: /etc/default/openhab
+        state: touch
+        mode: '0644'
+
+    - name: Set JAVA_HOME to Java 21 for openHAB
+      ansible.builtin.lineinfile:
+        path: /etc/default/openhab
+        regexp: '^JAVA_HOME='
+        line: 'JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64'
+        create: true
+
+    - name: Install openHAB
+      ansible.builtin.apt:
+        name: openhab
+        state: present
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Enable openHAB service
+      ansible.builtin.systemd:
+        name: openhab
+        enabled: true
+
+    - name: Restart openHAB service
+      ansible.builtin.systemd:
+        name: openhab
+        state: restarted

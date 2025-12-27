@@ -1,0 +1,50 @@
+---
+- name: Ensure required packages are installed
+  apt:
+    name:
+      - openjdk-21-jre-headless
+      - screen
+      - wget
+    state: present
+    update_cache: yes
+
+- name: Create Minecraft user
+  user:
+    name: "{{ mc_user }}"
+    system: yes
+    home: "{{ mc_dir }}"
+    create_home: yes
+    shell: /usr/sbin/nologin
+
+- name: Create Minecraft server directory
+  file:
+    path: "{{ mc_dir }}"
+    state: directory
+    owner: "{{ mc_user }}"
+    group: "{{ mc_user }}"
+    mode: '0755'
+
+- name: Download Minecraft server JAR
+  get_url:
+    url: "{{ mc_server_jar_url }}"
+    dest: "{{ mc_dir }}/server.jar"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_user }}"
+    mode: '0644'
+  notify: restart minecraft
+
+- name: Accept EULA
+  copy:
+    dest: "{{ mc_dir }}/eula.txt"
+    content: "eula=true\n"
+    owner: "{{ mc_user }}"
+    group: "{{ mc_user }}"
+    mode: '0644'
+
+- name: Install Minecraft systemd service
+  template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    mode: '0644'
+  notify: reload systemd
+

@@ -1,0 +1,6 @@
+mc_user: minecraft
+mc_dir: /opt/minecraft
+mc_version: 1.20.6
+mc_memory: 2G
+mc_server_jar_url: "https://launcher.mojang.com/v1/objects/73f86e845d4f0ff9d8576a63b0a2ff71e5f729ed/server.jar"
+

@@ -1,0 +1,6 @@
+---
+
+- name: Install openhab...
+  hosts: openhab.home.internal
+  roles:
+    - openhab
